@@ -18,10 +18,20 @@ func main() {
 	fmt.Scanln(&consumo)
 
 	if consumo >= 0 {
-		//fmt.Println(descuento, "Se cumple")
-		// Descuento de 10%
-		datosDescuento = "10%"
-		descuento = consumo * 0.10
+		if consumo <= 100 {
+			// Descuento de 10%
+			datosDescuento = "10%"
+			descuento = consumo * 0.10
+		} else if consumo > 100 && consumo <= 200 {
+			// Descuento de 20%
+			datosDescuento = "20%"
+			descuento = consumo * 0.20
+		} else if consumo > 200 {
+			// Descuento de 30%
+			datosDescuento = "30%"
+			descuento = consumo * 0.30
+		}
+
 	} else {
 		fmt.Println("Error al ingresar el consumo")
 	}
