@@ -5,6 +5,15 @@ import (
 	"strings"
 )
 
+// Función que devuelve la cadena pasada por parámetro al revés
+func reverse(cadena string) string {
+
+	arrayCadena := strings.Split(cadena, " ")
+	fmt.Println(arrayCadena)
+
+	return ""
+}
+
 func esPalindromo(palabra string) {
 
 	/*fmt.Println(palabra)
@@ -26,5 +35,7 @@ func main() {
 	// Un ejemplo podría ser la palabra "oso"
 	//esPalindromo("Oso")
 	esPalindromo("Luz azul") // También es una palabra palíndroma si le quitamos ese espacio
+
+	reverse("Luz azul")
 
 }
