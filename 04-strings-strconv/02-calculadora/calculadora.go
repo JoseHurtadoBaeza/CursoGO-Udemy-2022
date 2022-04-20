@@ -14,9 +14,16 @@ func sumar(expresion string) int {
 	var result int
 
 	for _, valor := range valores {
-		num, _ := strconv.Atoi(valor)
+		num, error := strconv.Atoi(valor)
 
-		result += num
+		if error != nil {
+			fmt.Println(error)
+			fmt.Println("Error: Tiene que ingresar un número entero")
+			fmt.Println("o !Solo debes realizar con operador +!!")
+		} else {
+			result += num
+		}
+
 	}
 
 	return result
