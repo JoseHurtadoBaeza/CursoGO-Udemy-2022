@@ -7,8 +7,8 @@ import (
 
 func main() {
 
-	if file, error := os.Open("hola.txt"); error != nil {
-		fmt.Println("No fue posible de esta forma")
+	if file, error := os.Open("hoa.txt"); error != nil {
+		panic("No fue posible obtener el archivo")
 	} else {
 		defer func() { // Se ejecutará al final
 			fmt.Println("Cerrando el archivo!")
