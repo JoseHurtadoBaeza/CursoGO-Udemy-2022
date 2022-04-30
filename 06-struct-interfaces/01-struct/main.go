@@ -21,6 +21,12 @@ func (p *Persona) editNombre(nuevoNombre string) {
 
 }
 
+// Herencia
+type Empleado struct {
+	Persona
+	sueldo float64
+}
+
 func main() {
 
 	p1 := Persona{"Jose", 25}
@@ -43,5 +49,13 @@ func main() {
 	p2.imprimir()
 	p2.editNombre("Juan")
 	p2.imprimir()
+
+	em1 := Empleado{
+		sueldo: 500,
+	}
+	em1.nombre = "Pedro"
+	em1.edad = 30
+	em1.imprimir()
+	fmt.Println(em1) // Se muestra con dos llaves por la herencia
 
 }
