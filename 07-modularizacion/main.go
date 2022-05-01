@@ -20,4 +20,8 @@ func main() {
 	p1 := models.Persona{}
 	p1.Constructor("Jose", 25)
 	fmt.Println(p1)
+	fmt.Println(p1.GetNombre())
+	p1.SetNombre("Carlos")
+
+	fmt.Println(p1)
 }
