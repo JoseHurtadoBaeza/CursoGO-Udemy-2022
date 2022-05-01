@@ -3,9 +3,14 @@
 // y tras esto sólamente tendremos que usar los import cómo se puede ver en este ejemplo.
 package main
 
-import "paquetes/mensajes"
+import "paquetes/figuras"
 
 func main() {
-	mensajes.Hola()
-	mensajes.Imprimir()
+	/*mensajes.Hola()
+	mensajes.Imprimir()*/
+	cua1 := figuras.Cuadrado{Lado: 8}
+	cir1 := figuras.Circulo{Radio: 5}
+
+	figuras.Medidas(&cua1)
+	figuras.Medidas(&cir1)
 }
