@@ -1,3 +1,6 @@
+// HE ESTADO INVESTIGANDO Y SE PUEDE DAR EL CASO DE QUE TE DE UN ERROR EL VSCODE AL IMPORTAR UN MÓDULO Y EN REALIDAD FUNCIONE ADECUADAMENTE.
+// ESTO SE DEBE A QUE HAS ABIERTO EL VSCODE EN UNA RUTA QUE NO ES LA DEL PROYECTO ACTUAL SOBRE EL QUE ESTÁS TRABAJANDO.
+
 // Un detalle a tener en cuenta es que si evitamos usar guiones en las rutas la importación de paquetes se hará de forma más automatizada
 // y sino lo que tenemos que hacer es lo que hemos hecho aquí, que básicamente consiste en ejecutar el comando go mod init "nombre del módulo gestor de paquetes"
 // y tras esto sólamente tendremos que hacer el import.
