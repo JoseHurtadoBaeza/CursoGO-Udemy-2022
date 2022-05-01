@@ -3,11 +3,17 @@
 // y tras esto sólamente tendremos que hacer el import.
 package main
 
-import "github.com/donvito/hellomod"
+//import "CursoGO/07-modularizacion/figuras"
+
+//import "github.com/donvito/hellomod"
+import "github.com/JoseHurtadoBaeza/figuras"
 
 func main() {
 
-	hellomod.SayHello()
+	cua1 := figuras.Cuadrado{Lado: 10}
+	figuras.Medidas(&cua1)
+
+	//hellomod.SayHello()
 
 	/*mensajes.Hola()
 	mensajes.Imprimir()*/

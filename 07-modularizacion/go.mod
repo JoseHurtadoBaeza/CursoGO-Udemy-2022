@@ -2,4 +2,4 @@ module paquetes
 
 go 1.18
 
-require github.com/donvito/hellomod v1.0.1 // indirect
+require github.com/JoseHurtadoBaeza/figuras v0.0.0-20220501175457-2b5a386b510b
