@@ -32,7 +32,10 @@ func main() {
 	}
 
 	for _, servidor := range servidores {
-		revisarServidor(servidor)
+		//revisarServidor(servidor) // Ejecución de forma secuencial
+		go revisarServidor(servidor) // Ejecución de forma concurrente
+		// Con la palabra reservada go indicamos la creación de múltiples hilos que nos van
+		// a permitir ejecutar esta función al mismo tiempo.
 	}
 
 	tiempoPaso := time.Since(inicio)
