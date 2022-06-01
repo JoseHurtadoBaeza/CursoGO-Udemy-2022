@@ -22,12 +22,27 @@ func Error(rw http.ResponseWriter, r *http.Request) {
 	http.Error(rw, "La página no funciona", http.StatusNotFound)
 }
 
+func Saludar(rw http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.URL)
+	fmt.Println(r.URL.RawQuery) // Con esto separamos la URL y los argumentos que estamos envíando en dicha URL
+	fmt.Println(r.URL.Query())  // Con esto convertimos la URL en un mapa
+
+	name := r.URL.Query().Get("name")
+	age := r.URL.Query().Get("age")
+
+	// Usamos Fprintf para imprimir por el navegador
+	fmt.Fprintf(rw, "Hola, %s tu edad es %s !!", name, age)
+
+	//http.Error(rw, "Este es un Error", http.StatusConflict)
+}
+
 func main() {
 
 	// Router
 	http.HandleFunc("/", Hola)
 	http.HandleFunc("/page", PaginaNF)
 	http.HandleFunc("/error", Error)
+	http.HandleFunc("/saludar", Saludar)
 
 	// Crear servidor
 	//http.ListenAndServe("localhost:3000", nil)
