@@ -18,7 +18,7 @@ func main() {
 	// Sub Slices
 	subSlice := numeros[:2]
 
-	numeros[0] = 100 // También de modifica en el slice, ya que los slices derivan de los arrays, es decir, se generan de un array padre
+	numeros[0] = 100 // También se modifica en el slice, ya que los slices derivan de los arrays, es decir, se generan de un array padre
 
 	fmt.Println(subSlice)
 	fmt.Println(numeros)
