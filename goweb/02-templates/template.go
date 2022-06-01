@@ -7,15 +7,24 @@ import (
 	"text/template"
 )
 
+// Estructuras
+type Usuarios struct {
+	UserName string
+	Edad     int
+}
+
 // Handler
 func Index(rw http.ResponseWriter, r *http.Request) {
 	// fmt.Fprintln(rw, "Hola Mundo")
 	template, err := template.ParseFiles("index.html") // ParseFiles devuelve dos valores: el template en sí y también un error
 
+	usuario := Usuarios{"Jose", 25}
+
 	if err != nil {
 		panic(err)
 	} else {
-		template.Execute(rw, nil)
+		//template.Execute(rw, nil)     // No envíamos datos al html
+		template.Execute(rw, usuario) // Envíamos datos al html
 	}
 
 }
