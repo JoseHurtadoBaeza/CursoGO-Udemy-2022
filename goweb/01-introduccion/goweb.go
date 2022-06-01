@@ -12,10 +12,15 @@ func Hola(rw http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(rw, "Hola Mundo")
 }
 
+func PaginaNF(rw http.ResponseWriter, r *http.Request) {
+	http.NotFound(rw, r)
+}
+
 func main() {
 
 	// Router
 	http.HandleFunc("/", Hola)
+	http.HandleFunc("/page", PaginaNF)
 
 	// Crear servidor
 	//http.ListenAndServe("localhost:3000", nil)
