@@ -11,6 +11,8 @@ import (
 type Usuarios struct {
 	UserName string
 	Edad     int
+	Activo   bool
+	Admin    bool
 }
 
 // Handler
@@ -18,7 +20,7 @@ func Index(rw http.ResponseWriter, r *http.Request) {
 	// fmt.Fprintln(rw, "Hola Mundo")
 	template, err := template.ParseFiles("index.html") // ParseFiles devuelve dos valores: el template en sí y también un error
 
-	usuario := Usuarios{"Jose", 25}
+	usuario := Usuarios{"Jose", 25, true, false}
 
 	if err != nil {
 		panic(err)
