@@ -13,14 +13,26 @@ type Usuarios struct {
 	Edad     int
 	Activo   bool
 	Admin    bool
+	Cursos   []Curso
+}
+
+type Curso struct {
+	Nombre string
 }
 
 // Handler
 func Index(rw http.ResponseWriter, r *http.Request) {
+
+	c1 := Curso{"Go"}
+	c2 := Curso{"Python"}
+	c3 := Curso{"Java"}
+	c4 := Curso{"Javascript"}
+
 	// fmt.Fprintln(rw, "Hola Mundo")
 	template, err := template.ParseFiles("index.html") // ParseFiles devuelve dos valores: el template en sí y también un error
 
-	usuario := Usuarios{"Jose", 25, true, false}
+	cursos := []Curso{c1, c2, c3, c4}
+	usuario := Usuarios{"Jose", 25, true, false, cursos}
 
 	if err != nil {
 		panic(err)
