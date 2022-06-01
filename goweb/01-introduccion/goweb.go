@@ -38,19 +38,36 @@ func Saludar(rw http.ResponseWriter, r *http.Request) {
 
 func main() {
 
+	// Un Mux es una ruta asociada a un handler
+	// Mux
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", Hola)
+	mux.HandleFunc("/page", PaginaNF)
+	mux.HandleFunc("/error", Error)
+	mux.HandleFunc("/saludar", Saludar)
+
 	// Router
-	http.HandleFunc("/", Hola)
+	/*http.HandleFunc("/", Hola)
 	http.HandleFunc("/page", PaginaNF)
 	http.HandleFunc("/error", Error)
-	http.HandleFunc("/saludar", Saludar)
+	http.HandleFunc("/saludar", Saludar)*/
 
 	// Crear servidor
-	//http.ListenAndServe("localhost:3000", nil)
 
+	// En vez de trabajar de la forma estándar para crear un servidor,
+	// nosotros podemos estructurar y crear nuestro propio servidor
+	server := &http.Server{
+		Addr:    "localhost:3000",
+		Handler: mux,
+	}
+
+	//http.ListenAndServe("localhost:3000", nil)
 	fmt.Println("El servidor está corriendo en el puerto 3000")
 	fmt.Println("Run server: http://localhost:3000/")
 
-	// Con log.Fatal si se devuelve algún error vamos a poder logear dicho error
-	log.Fatal(http.ListenAndServe("localhost:3000", nil))
+	// Con log.Fatal si se devuelve algún error vamos a poder logear dicho error.
+	// Cuando aquí ponemos nil estamos trabajando con mux automáticos o mux por defecto.
+	//log.Fatal(http.ListenAndServe("localhost:3000", nil))
+	log.Fatal(server.ListenAndServe()) // Ahora utilizamos nuestro nuevo servidor estructurado a nuestro gusto
 
 }
