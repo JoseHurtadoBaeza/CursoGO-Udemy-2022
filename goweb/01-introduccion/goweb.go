@@ -6,7 +6,15 @@ import (
 	"net/http"
 )
 
+// Handlers
+func Hola(rw http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(rw, "Hola Mundo")
+}
+
 func main() {
+
+	// Router
+	http.HandleFunc("/", Hola)
 
 	// Crear servidor
 	//http.ListenAndServe("localhost:3000", nil)
