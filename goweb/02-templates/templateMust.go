@@ -1,4 +1,4 @@
-/*package main
+package main
 
 import (
 	"fmt"
@@ -22,16 +22,14 @@ func Index(rw http.ResponseWriter, r *http.Request) {
 
 	// Otra forma de hacerlo para evitar algún problema o algún error.
 	// Indicamos explícitamente que lo que vamos a renderizar es el index.html con New
-	template, err := template.New("index.html").ParseFiles("index.html", "base.html")
+	//template, err := template.New("index.html").ParseFiles("index.html", "base.html")
+
+	// La función Must maneja internamente los errores, por lo que nos ayudar a simplificar el código que maneja los errores
+	template := template.Must(template.New("index.html").ParseFiles("index.html", "base.html"))
 
 	usuario := Usuarios{"Jose", 25}
 
-	if err != nil {
-		panic(err)
-	} else {
-		//template.Execute(rw, nil)     // No envíamos datos al html
-		template.Execute(rw, usuario) // Envíamos datos al html
-	}
+	template.Execute(rw, usuario)
 
 }
 
@@ -51,4 +49,4 @@ func main() {
 	fmt.Println("Run server: http://localhost:3000/")
 	log.Fatal(server.ListenAndServe())
 
-}*/
+}
