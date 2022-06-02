@@ -28,7 +28,8 @@ func NewUser(username, password, email string) *User {
 // Crear usuario e inserta en la BD
 func CreateUser(username, password, email string) *User {
 	user := NewUser(username, password, email)
-	user.insert()
+	//user.insert() // Deprecated
+	user.Save()
 	return user
 }
 
@@ -84,4 +85,10 @@ func (user *User) Save() {
 	} else {
 		user.update()
 	}
+}
+
+// Eliminar una fila de la tabla users
+func (user *User) Delete() {
+	sql := "DELETE FROM users WHERE id=?"
+	db.Exec(sql, user.Id)
 }
