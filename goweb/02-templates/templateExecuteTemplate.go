@@ -1,4 +1,4 @@
-/*package main
+package main
 
 import (
 	"fmt"
@@ -13,6 +13,12 @@ type Usuarios struct {
 	Edad     int
 }
 
+// GO nos ofrece que nosotros podemos cargar todos los archivos html y
+// luego utilizarlos en cada handler
+// Con esto tendremos todos los archivos html cargados en la variable templates y
+// de esta forma nos evitamos tener que cargar todos los templates en cada handler
+var templates = template.Must(template.New("T").ParseFiles("index.html", "base.html"))
+
 // Handler
 func Index(rw http.ResponseWriter, r *http.Request) {
 
@@ -25,11 +31,16 @@ func Index(rw http.ResponseWriter, r *http.Request) {
 	//template, err := template.New("index.html").ParseFiles("index.html", "base.html")
 
 	// La función Must maneja internamente los errores, por lo que nos ayudar a simplificar el código que maneja los errores
-	template := template.Must(template.New("index.html").ParseFiles("index.html", "base.html"))
+	//template := template.Must(template.New("index.html").ParseFiles("index.html", "base.html"))
 
 	usuario := Usuarios{"Jose", 25}
 
-	template.Execute(rw, usuario)
+	//template.Execute(rw, usuario)
+	err := templates.ExecuteTemplate(rw, "index.html", usuario)
+
+	if err != nil {
+		panic(err)
+	}
 
 }
 
@@ -49,4 +60,4 @@ func main() {
 	fmt.Println("Run server: http://localhost:3000/")
 	log.Fatal(server.ListenAndServe())
 
-}*/
+}
