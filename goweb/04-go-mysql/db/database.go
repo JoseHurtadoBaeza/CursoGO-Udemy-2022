@@ -10,8 +10,10 @@ import (
 // username:password@tcp(localhost:3306)/database
 const url = "root:1234@tcp(localhost:3306)/goweb_db"
 
+// Guarda la conexión
 var db *sql.DB
 
+// Realiza la conexión
 func Connect() {
 
 	connection, err := sql.Open("mysql", url)
@@ -24,6 +26,14 @@ func Connect() {
 
 }
 
+// Cierra la conexión
 func Close() {
 	db.Close()
+}
+
+// Verificar la conexión
+func Ping() {
+	if err := db.Ping(); err != nil {
+		panic(err)
+	}
 }
