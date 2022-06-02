@@ -17,9 +17,13 @@ type Usuarios struct {
 // luego utilizarlos en cada handler
 // Con esto tendremos todos los archivos html cargados en la variable templates y
 // de esta forma nos evitamos tener que cargar todos los templates en cada handler
-var templates = template.Must(template.New("T").ParseFiles("index.html", "base.html"))
+//var templates = template.Must(template.New("T").ParseFiles("index.html", "base.html"))
 
-// Handler
+// Si usamos la librería Parse Glob nos ahorramos tener que escribir todos los templates.
+// Parse Glob carga todos los templates de un directorio
+var templates = template.Must(template.New("T").ParseGlob("templates/**/*.html")) // Con el ** nos referimos a los subdirectorios
+
+// Handlers
 func Index(rw http.ResponseWriter, r *http.Request) {
 
 	// fmt.Fprintln(rw, "Hola Mundo")
@@ -44,11 +48,22 @@ func Index(rw http.ResponseWriter, r *http.Request) {
 
 }
 
+func Registro(rw http.ResponseWriter, r *http.Request) {
+
+	err := templates.ExecuteTemplate(rw, "registro.html", nil)
+
+	if err != nil {
+		panic(err)
+	}
+
+}
+
 func main() {
 
 	// Mux
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", Index)
+	mux.HandleFunc("/registro", Registro)
 
 	// Servidor
 	server := &http.Server{
