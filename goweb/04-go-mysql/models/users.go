@@ -1,5 +1,7 @@
 package models
 
+import "gomysql/db"
+
 type User struct {
 	Id       int
 	Username string
@@ -14,3 +16,23 @@ const UserSchema string = `CREATE TABLE users (
 	email VARCHAR(50),
 	create_data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`
+
+// Construir usuario
+func NewUser(username, password, email string) *User {
+	user := &User{Username: username, Password: password, Email: email}
+	return user
+}
+
+// Crear usuario e inserta en la BD
+func CreateUser(username, password, email string) *User {
+	user := NewUser(username, password, email)
+	user.insert()
+	return user
+}
+
+// Insertar fila en la BD
+func (user *User) insert() {
+	sql := "INSERT INTO users SET username=?, password=?, email=?"
+	db.Exec(sql, user.Username, user.Password, user.Email)
+
+}
