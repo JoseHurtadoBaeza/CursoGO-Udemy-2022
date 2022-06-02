@@ -64,6 +64,12 @@ func CreateTable(schema string, name string) {
 
 }
 
+// Función que elimina todas las filas de una tabla
+func TruncateTable(tablename string) {
+	sql := fmt.Sprintf("TRUNCATE %s", tablename)
+	Exec(sql)
+}
+
 // Polimorfismo de Exec
 func Exec(query string, args ...interface{}) (sql.Result, error) {
 	result, err := db.Exec(query, args...)
