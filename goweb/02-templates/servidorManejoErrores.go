@@ -22,6 +22,13 @@ type Usuarios struct {
 // Si usamos la librería Parse Glob nos ahorramos tener que escribir todos los templates.
 // Parse Glob carga todos los templates de un directorio
 var templates = template.Must(template.New("T").ParseGlob("templates/**/*.html")) // Con el ** nos referimos a los subdirectorios
+var errorTemplate = template.Must(template.ParseFiles("templates/error/error.html"))
+
+// Handler error
+func handlerError(rw http.ResponseWriter, status int) {
+	rw.WriteHeader(status)
+	errorTemplate.Execute(rw, nil)
+}
 
 // Función que se va a encargar de renderizar los templates y
 // la usaremos en todos los handlers que tengamos
@@ -30,7 +37,9 @@ func renderTemplate(rw http.ResponseWriter, name string, data interface{}) {
 	err := templates.ExecuteTemplate(rw, name, data)
 
 	if err != nil {
-		panic(err)
+		//panic(err)
+		//http.Error(rw, "No es posible devolver el template", http.StatusInternalServerError)
+		handlerError(rw, http.StatusInternalServerError)
 	}
 
 }
@@ -53,7 +62,7 @@ func Index(rw http.ResponseWriter, r *http.Request) {
 
 	//template.Execute(rw, usuario)
 
-	renderTemplate(rw, "index.html", usuario)
+	renderTemplate(rw, "inde.html", usuario)
 
 }
 
