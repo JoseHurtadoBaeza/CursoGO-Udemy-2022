@@ -14,8 +14,11 @@ func main() {
 	//db.CreateTable(models.UserSchema, "users")
 
 	//user := models.CreateUser("jose", "jose123", "jose@gmail.com")
-	user := models.CreateUser("carlos", "carlos123", "carlos@gmail.com")
-	fmt.Println(user)
+	//user := models.CreateUser("carlos", "carlos123", "carlos@gmail.com")
+	//fmt.Println(user)
+
+	users := models.ListUsers()
+	fmt.Println(users)
 
 	//db.TruncateTable("users") // Elimina todas las filas de la tabla indicada
 
