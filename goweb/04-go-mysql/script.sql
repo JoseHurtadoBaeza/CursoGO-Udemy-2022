@@ -1,1 +1,1 @@
-create database blog_db;
+create database goweb_db;
