@@ -1,4 +1,4 @@
-/*package main
+package main
 
 import (
 	"fmt"
@@ -62,7 +62,7 @@ func Index(rw http.ResponseWriter, r *http.Request) {
 
 	//template.Execute(rw, usuario)
 
-	renderTemplate(rw, "inde.html", usuario)
+	renderTemplate(rw, "index.html", usuario)
 
 }
 
@@ -89,4 +89,4 @@ func main() {
 	fmt.Println("Run server: http://localhost:3000/")
 	log.Fatal(server.ListenAndServe())
 
-}*/
+}
