@@ -3,7 +3,7 @@ package models
 import "gomysql/db"
 
 type User struct {
-	Id       int
+	Id       int64
 	Username string
 	Password string
 	Email    string
@@ -33,6 +33,8 @@ func CreateUser(username, password, email string) *User {
 // Insertar fila en la BD
 func (user *User) insert() {
 	sql := "INSERT INTO users SET username=?, password=?, email=?"
-	db.Exec(sql, user.Username, user.Password, user.Email)
+	result, _ := db.Exec(sql, user.Username, user.Password, user.Email)
+
+	user.Id, _ = result.LastInsertId()
 
 }
