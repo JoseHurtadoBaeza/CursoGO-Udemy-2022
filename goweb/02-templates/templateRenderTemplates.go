@@ -1,4 +1,4 @@
-/*package main
+package main
 
 import (
 	"fmt"
@@ -23,6 +23,18 @@ type Usuarios struct {
 // Parse Glob carga todos los templates de un directorio
 var templates = template.Must(template.New("T").ParseGlob("templates/**/*.html")) // Con el ** nos referimos a los subdirectorios
 
+// Función que se va a encargar de renderizar los templates y
+// la usaremos en todos los handlers que tengamos
+func renderTemplate(rw http.ResponseWriter, name string, data interface{}) {
+
+	err := templates.ExecuteTemplate(rw, name, data)
+
+	if err != nil {
+		panic(err)
+	}
+
+}
+
 // Handlers
 func Index(rw http.ResponseWriter, r *http.Request) {
 
@@ -40,21 +52,14 @@ func Index(rw http.ResponseWriter, r *http.Request) {
 	usuario := Usuarios{"Jose", 25}
 
 	//template.Execute(rw, usuario)
-	err := templates.ExecuteTemplate(rw, "index.html", usuario)
 
-	if err != nil {
-		panic(err)
-	}
+	renderTemplate(rw, "index.html", usuario)
 
 }
 
 func Registro(rw http.ResponseWriter, r *http.Request) {
 
-	err := templates.ExecuteTemplate(rw, "registro.html", nil)
-
-	if err != nil {
-		panic(err)
-	}
+	renderTemplate(rw, "registro.html", nil)
 
 }
 
@@ -75,4 +80,4 @@ func main() {
 	fmt.Println("Run server: http://localhost:3000/")
 	log.Fatal(server.ListenAndServe())
 
-}*/
+}
