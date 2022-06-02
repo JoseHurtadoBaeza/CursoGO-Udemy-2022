@@ -42,7 +42,8 @@ func Ping() {
 func ExistsTable(tableName string) bool {
 
 	sql := fmt.Sprintf("SHOW TABLES LIKE '%s'", tableName)
-	rows, err := db.Query(sql)
+	// rows, err := db.Query(sql) // Forma estándar
+	rows, err := Query(sql) // Utilizando nuestra nueva función
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
@@ -61,4 +62,24 @@ func CreateTable(schema string, name string) {
 		}
 	}
 
+}
+
+// Polimorfismo de Exec
+func Exec(query string, args ...interface{}) (sql.Result, error) {
+	result, err := db.Exec(query, args...)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return result, err
+}
+
+// Polimorfismo de Query
+func Query(query string, args ...interface{}) (*sql.Rows, error) {
+	rows, err := db.Query(query, args...)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return rows, err
 }
