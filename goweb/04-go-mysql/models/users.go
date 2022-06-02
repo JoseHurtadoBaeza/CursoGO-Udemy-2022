@@ -70,3 +70,18 @@ func GetUser(id int) *User {
 
 	return user
 }
+
+// Actualizar una fila de la tabla users
+func (user *User) update() {
+	sql := "UPDATE users SET username=?, password=?, email=? WHERE id=?"
+	db.Exec(sql, user.Username, user.Password, user.Email, user.Id)
+}
+
+// Guardar o editar una fila de la tabla users
+func (user *User) Save() {
+	if user.Id == 0 {
+		user.insert()
+	} else {
+		user.update()
+	}
+}

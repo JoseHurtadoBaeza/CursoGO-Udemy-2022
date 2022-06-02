@@ -24,6 +24,12 @@ func main() {
 	// Recuperamos sólo un usuario de la tabla users
 	user := models.GetUser(2)
 	fmt.Println(user)
+	user.Username = "juan"
+	user.Password = "juan789"
+	user.Email = "juan@gmail.com"
+	user.Save()
+
+	fmt.Println(models.ListUsers())
 
 	//db.TruncateTable("users") // Elimina todas las filas de la tabla indicada
 
