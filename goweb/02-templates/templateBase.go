@@ -1,4 +1,4 @@
-/*package main
+package main
 
 import (
 	"fmt"
@@ -11,28 +11,20 @@ import (
 type Usuarios struct {
 	UserName string
 	Edad     int
-	Activo   bool
-	Admin    bool
-	Cursos   []Curso
-}
-
-type Curso struct {
-	Nombre string
 }
 
 // Handler
 func Index(rw http.ResponseWriter, r *http.Request) {
 
-	c1 := Curso{"Go"}
-	c2 := Curso{"Python"}
-	c3 := Curso{"Java"}
-	c4 := Curso{"Javascript"}
-
 	// fmt.Fprintln(rw, "Hola Mundo")
-	template, err := template.ParseFiles("index.html") // ParseFiles devuelve dos valores: el template en sí y también un error
+	// Renderiza el primer archivo indicado y los demás los tiene ahí para reutilizar por ejemplo la herencia
+	//template, err := template.ParseFiles("index.html", "base.html") // ParseFiles devuelve dos valores: el template en sí y también un error
 
-	cursos := []Curso{c1, c2, c3, c4}
-	usuario := Usuarios{"Jose", 25, true, false, cursos}
+	// Otra forma de hacerlo para evitar algún problema o algún error.
+	// Indicamos explícitamente que lo que vamos a renderizar es el index.html con New
+	template, err := template.New("index.html").ParseFiles("index.html", "base.html")
+
+	usuario := Usuarios{"Jose", 25}
 
 	if err != nil {
 		panic(err)
@@ -59,4 +51,4 @@ func main() {
 	fmt.Println("Run server: http://localhost:3000/")
 	log.Fatal(server.ListenAndServe())
 
-}*/
+}

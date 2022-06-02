@@ -1,4 +1,4 @@
-package main
+/*package main
 
 import (
 	"fmt"
@@ -24,8 +24,7 @@ func Index(rw http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	} else {
-		//template.Execute(rw, nil)     // No envíamos datos al html
-		template.Execute(rw, nil) // Envíamos datos al html
+		template.Execute(rw, nil)
 	}
 
 }
@@ -46,4 +45,4 @@ func main() {
 	fmt.Println("Run server: http://localhost:3000/")
 	log.Fatal(server.ListenAndServe())
 
-}
+}*/

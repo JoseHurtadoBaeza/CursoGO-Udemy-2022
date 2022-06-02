@@ -8,12 +8,7 @@
 </head>
 <body>
     
-    {{ template "header" }} <!-- Herencia -->
-
-    <h3>Hola {{ .UserName }}</h3>
-    <p>Edad: {{ .Edad }}</p>
-
-    {{ template "footer" }} <!-- Herencia -->
+    <p>{{ saludar "Jose"}}</p>
 
 </body>
 </html>
