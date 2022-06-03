@@ -39,20 +39,25 @@ func SendData(rw http.ResponseWriter, data interface{}) {
 	response.Send()
 }
 
-func (resp *Response) NoFound() {
+// Función utilizada junto a la de abajo al momento de eliminar,
+// al momento de recuperar una fila o todas las filas de la BD y
+// que se produzcan errores para poder manejarlos.
+func (resp *Response) NotFound() {
 	resp.Status = http.StatusNotFound
-	resp.Message = "Resource No Found"
+	resp.Message = "Resource Not Found"
 }
 
-func SendNoFound(rw http.ResponseWriter) {
+func SendNotFound(rw http.ResponseWriter) {
 	response := CreateDefaultResponse(rw)
-	response.NoFound()
+	response.NotFound()
 	response.Send()
 }
 
+// Función utilizada junto a la de abajo al momento de insertar o
+// actualizar una fila de la BD y que se produzcan errores para poder manejarlos.
 func (resp *Response) UnprocessableEntity() {
 	resp.Status = http.StatusUnprocessableEntity
-	resp.Message = "UnprocessableEntity No Found"
+	resp.Message = "UnprocessableEntity Not Found"
 }
 
 func SendUnprocessableEntity(rw http.ResponseWriter) {

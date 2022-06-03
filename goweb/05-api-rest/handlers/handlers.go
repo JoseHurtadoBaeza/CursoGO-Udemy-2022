@@ -1,10 +1,8 @@
 package handlers
 
 import (
-	"apirest/db"
 	"apirest/models"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -12,10 +10,11 @@ import (
 )
 
 func GetUsers(rw http.ResponseWriter, r *http.Request) {
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
 	//fmt.Fprintln(rw, "Lista todos los usuarios")
 
-	rw.Header().Set("content-type", "application/json") // Para responder con json
-	//rw.Header().Set("content-type", "text/xml") // Para responder con xml
+	/*rw.Header().Set("content-type", "application/json") // Para responder con json
+	rw.Header().Set("content-type", "text/xml") // Para responder con xml
 	// No hay un tipo de dato específico para yaml
 
 	db.Connect()
@@ -25,13 +24,21 @@ func GetUsers(rw http.ResponseWriter, r *http.Request) {
 	output, _ := json.Marshal(users) // Para responder con json
 	//output, _ := xml.Marshal(users) // Para responder con xml
 	//output, _ := yaml.Marshal(users) // Para responder con yaml
-	fmt.Fprintln(rw, string(output))
+	fmt.Fprintln(rw, string(output))*/
+
+	if users, err := models.ListUsers(); err != nil {
+		models.SendNotFound(rw)
+	} else {
+		models.SendData(rw, users)
+	}
+
 }
 
 func GetUser(rw http.ResponseWriter, r *http.Request) {
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
 	//fmt.Fprintln(rw, "Obtiene un usuario")
 
-	rw.Header().Set("content-type", "application/json") // Para responder con json
+	/*rw.Header().Set("content-type", "application/json") // Para responder con json
 	//rw.Header().Set("content-type", "text/xml") // Para responder con xml
 	// No hay un tipo de dato específico para yaml
 
@@ -46,18 +53,25 @@ func GetUser(rw http.ResponseWriter, r *http.Request) {
 	output, _ := json.Marshal(user) // Para responder con json
 	//output, _ := xml.Marshal(users) // Para responder con xml
 	//output, _ := yaml.Marshal(users) // Para responder con yaml
-	fmt.Fprintln(rw, string(output))
+	fmt.Fprintln(rw, string(output))*/
+
+	if user, err := getUserByRequest(r); err != nil {
+		models.SendNotFound(rw)
+	} else {
+		models.SendData(rw, user)
+	}
 
 }
 
 func CreateUser(rw http.ResponseWriter, r *http.Request) {
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
 	//fmt.Fprintln(rw, "Crea un usuario")
 
-	rw.Header().Set("content-type", "application/json") // Para responder con json
+	/*rw.Header().Set("content-type", "application/json") // Para responder con json
 	//rw.Header().Set("content-type", "text/xml") // Para responder con xml
 	// No hay un tipo de dato específico para yaml
 
-	// Obtener registro
+	// Obtener usuario/registro
 	user := models.User{}
 
 	decoder := json.NewDecoder(r.Body)
@@ -74,13 +88,26 @@ func CreateUser(rw http.ResponseWriter, r *http.Request) {
 	output, _ := json.Marshal(user) // Para responder con json
 	//output, _ := xml.Marshal(users) // Para responder con xml
 	//output, _ := yaml.Marshal(users) // Para responder con yaml
-	fmt.Fprintln(rw, string(output))
+	fmt.Fprintln(rw, string(output))*/
+
+	// Obtener usuario/registro
+	user := models.User{}
+	decoder := json.NewDecoder(r.Body)
+
+	if err := decoder.Decode(&user); err != nil {
+		models.SendUnprocessableEntity(rw)
+	} else {
+		user.Save()
+		models.SendData(rw, user)
+	}
+
 }
 
 func UpdateUser(rw http.ResponseWriter, r *http.Request) {
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
 	//fmt.Fprintln(rw, "Actualiza un usuario")
 
-	rw.Header().Set("content-type", "application/json") // Para responder con json
+	/*rw.Header().Set("content-type", "application/json") // Para responder con json
 	//rw.Header().Set("content-type", "text/xml") // Para responder con xml
 	// No hay un tipo de dato específico para yaml
 
@@ -101,14 +128,35 @@ func UpdateUser(rw http.ResponseWriter, r *http.Request) {
 	output, _ := json.Marshal(user) // Para responder con json
 	//output, _ := xml.Marshal(users) // Para responder con xml
 	//output, _ := yaml.Marshal(users) // Para responder con yaml
-	fmt.Fprintln(rw, string(output))
+	fmt.Fprintln(rw, string(output))*/
+
+	// Obtener registro
+	var userId int64
+
+	if user, err := getUserByRequest(r); err != nil {
+		models.SendNotFound(rw)
+	} else {
+		userId = user.Id
+	}
+
+	user := models.User{}
+	decoder := json.NewDecoder(r.Body)
+
+	if err := decoder.Decode(&user); err != nil {
+		models.SendUnprocessableEntity(rw)
+	} else {
+		user.Id = userId
+		user.Save()
+		models.SendData(rw, user)
+	}
 
 }
 
 func DeleteUser(rw http.ResponseWriter, r *http.Request) {
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
 	//fmt.Fprintln(rw, "Elimina un usuario")
 
-	rw.Header().Set("content-type", "application/json") // Para responder con json
+	/*rw.Header().Set("content-type", "application/json") // Para responder con json
 	//rw.Header().Set("content-type", "text/xml") // Para responder con xml
 	// No hay un tipo de dato específico para yaml
 
@@ -124,6 +172,28 @@ func DeleteUser(rw http.ResponseWriter, r *http.Request) {
 	output, _ := json.Marshal(user) // Para responder con json
 	//output, _ := xml.Marshal(users) // Para responder con xml
 	//output, _ := yaml.Marshal(users) // Para responder con yaml
-	fmt.Fprintln(rw, string(output))
+	fmt.Fprintln(rw, string(output))*/
 
+	if user, err := getUserByRequest(r); err != nil {
+		models.SendNotFound(rw)
+	} else {
+		user.Delete()
+		models.SendData(rw, user)
+	}
+
+}
+
+// Función reutilizable para simplificar el código en el uso
+// de GetUser tanto en la parte de editar como en la eliminar
+func getUserByRequest(r *http.Request) (models.User, error) {
+
+	// Obtener ID
+	vars := mux.Vars(r) // Mos devuelve un mapa de tipo string
+	userId, _ := strconv.Atoi(vars["id"])
+
+	if user, err := models.GetUser(userId); err != nil {
+		return *user, err
+	} else {
+		return *user, nil
+	}
 }
