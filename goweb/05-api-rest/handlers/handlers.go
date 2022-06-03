@@ -10,7 +10,7 @@ import (
 )
 
 func GetUsers(rw http.ResponseWriter, r *http.Request) {
-	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA PRIMERA REFACTORIZACIÓN
 	//fmt.Fprintln(rw, "Lista todos los usuarios")
 
 	/*rw.Header().Set("content-type", "application/json") // Para responder con json
@@ -35,7 +35,7 @@ func GetUsers(rw http.ResponseWriter, r *http.Request) {
 }
 
 func GetUser(rw http.ResponseWriter, r *http.Request) {
-	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA PRIMERA REFACTORIZACIÓN
 	//fmt.Fprintln(rw, "Obtiene un usuario")
 
 	/*rw.Header().Set("content-type", "application/json") // Para responder con json
@@ -64,7 +64,7 @@ func GetUser(rw http.ResponseWriter, r *http.Request) {
 }
 
 func CreateUser(rw http.ResponseWriter, r *http.Request) {
-	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA PRIMERA REFACTORIZACIÓN
 	//fmt.Fprintln(rw, "Crea un usuario")
 
 	/*rw.Header().Set("content-type", "application/json") // Para responder con json
@@ -104,7 +104,7 @@ func CreateUser(rw http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUser(rw http.ResponseWriter, r *http.Request) {
-	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA PRIMERA REFACTORIZACIÓN
 	//fmt.Fprintln(rw, "Actualiza un usuario")
 
 	/*rw.Header().Set("content-type", "application/json") // Para responder con json
@@ -153,7 +153,7 @@ func UpdateUser(rw http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteUser(rw http.ResponseWriter, r *http.Request) {
-	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA PRIMERA REFACTORIZACIÓN
 	//fmt.Fprintln(rw, "Elimina un usuario")
 
 	/*rw.Header().Set("content-type", "application/json") // Para responder con json
