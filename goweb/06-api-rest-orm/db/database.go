@@ -1,7 +1,6 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -22,7 +21,7 @@ var Database = func() (db *gorm.DB) {
 }()
 
 // username:password@tcp(localhost:3306)/database
-const url = "root:1234@tcp(localhost:3306)/goweb_db"
+/*const url = "root:1234@tcp(localhost:3306)/goweb_db"
 
 // Guarda la conexión
 var db *sql.DB
@@ -107,4 +106,4 @@ func Query(query string, args ...interface{}) (*sql.Rows, error) {
 	}
 
 	return rows, err
-}
+}*/

@@ -34,7 +34,7 @@ func MigrarUser() {
 	db.Database.AutoMigrate(User{}) // Migramos una estructura
 }
 
-const UserSchema string = `CREATE TABLE users (
+/*const UserSchema string = `CREATE TABLE users (
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	username VARCHAR(30) NOT NULL,
 	password VARCHAR(100) NOT NULL,
@@ -117,4 +117,4 @@ func (user *User) Save() {
 func (user *User) Delete() {
 	sql := "DELETE FROM users WHERE id=?"
 	db.Exec(sql, user.Id)
-}
+}*/
