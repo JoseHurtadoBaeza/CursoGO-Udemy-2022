@@ -28,6 +28,12 @@ type User struct {
 
 type Users []User
 
+// Función que se conecta la BD y migra el modelo user en la BD
+// de forma que no tenemos que realizar/codificar la parte de SQL
+func MigrarUser() {
+	db.Database.AutoMigrate(User{}) // Migramos una estructura
+}
+
 const UserSchema string = `CREATE TABLE users (
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	username VARCHAR(30) NOT NULL,
