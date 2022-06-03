@@ -1,12 +1,9 @@
 package handlers
 
 import (
-	"encoding/json"
+	"gorm/db"
 	"gorm/models"
 	"net/http"
-	"strconv"
-
-	"github.com/gorilla/mux"
 )
 
 func GetUsers(rw http.ResponseWriter, r *http.Request) {
@@ -24,74 +21,78 @@ func GetUsers(rw http.ResponseWriter, r *http.Request) {
 	output, _ := json.Marshal(users) // Para responder con json
 	//output, _ := xml.Marshal(users) // Para responder con xml
 	//output, _ := yaml.Marshal(users) // Para responder con yaml
-	fmt.Fprintln(rw, string(output))*/
+	fmt.Fprintln(rw, string(output))
 
 	if users, err := models.ListUsers(); err != nil {
 		models.SendNotFound(rw)
 	} else {
 		models.SendData(rw, users)
-	}
+	}*/
+
+	users := models.Users{}
+	db.Database.Find(&users) // Le indicamos a find dónde vamos a recuperar los datos
+	sendData(rw, users, http.StatusOK)
 
 }
 
-func GetUser(rw http.ResponseWriter, r *http.Request) {
-	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
-	//fmt.Fprintln(rw, "Obtiene un usuario")
+//func GetUser(rw http.ResponseWriter, r *http.Request) {
+// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
+//fmt.Fprintln(rw, "Obtiene un usuario")
 
-	/*rw.Header().Set("content-type", "application/json") // Para responder con json
-	//rw.Header().Set("content-type", "text/xml") // Para responder con xml
-	// No hay un tipo de dato específico para yaml
+/*rw.Header().Set("content-type", "application/json") // Para responder con json
+//rw.Header().Set("content-type", "text/xml") // Para responder con xml
+// No hay un tipo de dato específico para yaml
 
-	// Obtener ID
-	vars := mux.Vars(r) // Mos devuelve un mapa de tipo string
-	userId, _ := strconv.Atoi(vars["id"])
+// Obtener ID
+vars := mux.Vars(r) // Mos devuelve un mapa de tipo string
+userId, _ := strconv.Atoi(vars["id"])
 
-	db.Connect()
-	user, _ := models.GetUser(userId)
-	db.Close()
-	// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
-	output, _ := json.Marshal(user) // Para responder con json
-	//output, _ := xml.Marshal(users) // Para responder con xml
-	//output, _ := yaml.Marshal(users) // Para responder con yaml
-	fmt.Fprintln(rw, string(output))*/
+db.Connect()
+user, _ := models.GetUser(userId)
+db.Close()
+// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
+output, _ := json.Marshal(user) // Para responder con json
+//output, _ := xml.Marshal(users) // Para responder con xml
+//output, _ := yaml.Marshal(users) // Para responder con yaml
+fmt.Fprintln(rw, string(output))*/
 
-	if user, err := getUserByRequest(r); err != nil {
+/*	if user, err := getUserByRequest(r); err != nil {
 		models.SendNotFound(rw)
 	} else {
 		models.SendData(rw, user)
 	}
 
+}*/
+
+//func CreateUser(rw http.ResponseWriter, r *http.Request) {
+// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
+//fmt.Fprintln(rw, "Crea un usuario")
+
+/*rw.Header().Set("content-type", "application/json") // Para responder con json
+//rw.Header().Set("content-type", "text/xml") // Para responder con xml
+// No hay un tipo de dato específico para yaml
+
+// Obtener usuario/registro
+user := models.User{}
+
+decoder := json.NewDecoder(r.Body)
+
+if err := decoder.Decode(&user); err != nil {
+	fmt.Fprintln(rw, http.StatusUnprocessableEntity)
+} else {
+	db.Connect()
+	user.Save() // Método creado por nosotros que inserta o actualiza dependiendo de si el usuario existe ya o no
+	db.Close()
 }
 
-func CreateUser(rw http.ResponseWriter, r *http.Request) {
-	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
-	//fmt.Fprintln(rw, "Crea un usuario")
+// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
+output, _ := json.Marshal(user) // Para responder con json
+//output, _ := xml.Marshal(users) // Para responder con xml
+//output, _ := yaml.Marshal(users) // Para responder con yaml
+fmt.Fprintln(rw, string(output))*/
 
-	/*rw.Header().Set("content-type", "application/json") // Para responder con json
-	//rw.Header().Set("content-type", "text/xml") // Para responder con xml
-	// No hay un tipo de dato específico para yaml
-
-	// Obtener usuario/registro
-	user := models.User{}
-
-	decoder := json.NewDecoder(r.Body)
-
-	if err := decoder.Decode(&user); err != nil {
-		fmt.Fprintln(rw, http.StatusUnprocessableEntity)
-	} else {
-		db.Connect()
-		user.Save() // Método creado por nosotros que inserta o actualiza dependiendo de si el usuario existe ya o no
-		db.Close()
-	}
-
-	// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
-	output, _ := json.Marshal(user) // Para responder con json
-	//output, _ := xml.Marshal(users) // Para responder con xml
-	//output, _ := yaml.Marshal(users) // Para responder con yaml
-	fmt.Fprintln(rw, string(output))*/
-
-	// Obtener usuario/registro
-	user := models.User{}
+// Obtener usuario/registro
+/*	user := models.User{}
 	decoder := json.NewDecoder(r.Body)
 
 	if err := decoder.Decode(&user); err != nil {
@@ -101,37 +102,37 @@ func CreateUser(rw http.ResponseWriter, r *http.Request) {
 		models.SendData(rw, user)
 	}
 
+}*/
+
+//func UpdateUser(rw http.ResponseWriter, r *http.Request) {
+// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
+//fmt.Fprintln(rw, "Actualiza un usuario")
+
+/*rw.Header().Set("content-type", "application/json") // Para responder con json
+//rw.Header().Set("content-type", "text/xml") // Para responder con xml
+// No hay un tipo de dato específico para yaml
+
+// Obtener registro
+user := models.User{}
+
+decoder := json.NewDecoder(r.Body)
+
+if err := decoder.Decode(&user); err != nil {
+	fmt.Fprintln(rw, http.StatusUnprocessableEntity)
+} else {
+	db.Connect()
+	user.Save() // Método creado por nosotros que inserta o actualiza dependiendo de si el usuario existe ya o no
+	db.Close()
 }
 
-func UpdateUser(rw http.ResponseWriter, r *http.Request) {
-	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
-	//fmt.Fprintln(rw, "Actualiza un usuario")
+// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
+output, _ := json.Marshal(user) // Para responder con json
+//output, _ := xml.Marshal(users) // Para responder con xml
+//output, _ := yaml.Marshal(users) // Para responder con yaml
+fmt.Fprintln(rw, string(output))*/
 
-	/*rw.Header().Set("content-type", "application/json") // Para responder con json
-	//rw.Header().Set("content-type", "text/xml") // Para responder con xml
-	// No hay un tipo de dato específico para yaml
-
-	// Obtener registro
-	user := models.User{}
-
-	decoder := json.NewDecoder(r.Body)
-
-	if err := decoder.Decode(&user); err != nil {
-		fmt.Fprintln(rw, http.StatusUnprocessableEntity)
-	} else {
-		db.Connect()
-		user.Save() // Método creado por nosotros que inserta o actualiza dependiendo de si el usuario existe ya o no
-		db.Close()
-	}
-
-	// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
-	output, _ := json.Marshal(user) // Para responder con json
-	//output, _ := xml.Marshal(users) // Para responder con xml
-	//output, _ := yaml.Marshal(users) // Para responder con yaml
-	fmt.Fprintln(rw, string(output))*/
-
-	// Obtener registro
-	var userId int64
+// Obtener registro
+/*	var userId int64
 
 	if user, err := getUserByRequest(r); err != nil {
 		models.SendNotFound(rw)
@@ -150,42 +151,42 @@ func UpdateUser(rw http.ResponseWriter, r *http.Request) {
 		models.SendData(rw, user)
 	}
 
-}
+}*/
 
-func DeleteUser(rw http.ResponseWriter, r *http.Request) {
-	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
-	//fmt.Fprintln(rw, "Elimina un usuario")
+///func DeleteUser(rw http.ResponseWriter, r *http.Request) {
+// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
+//fmt.Fprintln(rw, "Elimina un usuario")
 
-	/*rw.Header().Set("content-type", "application/json") // Para responder con json
-	//rw.Header().Set("content-type", "text/xml") // Para responder con xml
-	// No hay un tipo de dato específico para yaml
+/*rw.Header().Set("content-type", "application/json") // Para responder con json
+//rw.Header().Set("content-type", "text/xml") // Para responder con xml
+// No hay un tipo de dato específico para yaml
 
-	// Obtener ID
-	vars := mux.Vars(r) // Mos devuelve un mapa de tipo string
-	userId, _ := strconv.Atoi(vars["id"])
+// Obtener ID
+vars := mux.Vars(r) // Mos devuelve un mapa de tipo string
+userId, _ := strconv.Atoi(vars["id"])
 
-	db.Connect()
-	user, _ := models.GetUser(userId)
-	user.Delete()
-	db.Close()
-	// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
-	output, _ := json.Marshal(user) // Para responder con json
-	//output, _ := xml.Marshal(users) // Para responder con xml
-	//output, _ := yaml.Marshal(users) // Para responder con yaml
-	fmt.Fprintln(rw, string(output))*/
+db.Connect()
+user, _ := models.GetUser(userId)
+user.Delete()
+db.Close()
+// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
+output, _ := json.Marshal(user) // Para responder con json
+//output, _ := xml.Marshal(users) // Para responder con xml
+//output, _ := yaml.Marshal(users) // Para responder con yaml
+fmt.Fprintln(rw, string(output))*/
 
-	if user, err := getUserByRequest(r); err != nil {
+/*	if user, err := getUserByRequest(r); err != nil {
 		models.SendNotFound(rw)
 	} else {
 		user.Delete()
 		models.SendData(rw, user)
 	}
 
-}
+}*/
 
 // Función reutilizable para simplificar el código en el uso
 // de GetUser tanto en la parte de editar como en la eliminar
-func getUserByRequest(r *http.Request) (models.User, error) {
+/*func getUserByRequest(r *http.Request) (models.User, error) {
 
 	// Obtener ID
 	vars := mux.Vars(r) // Mos devuelve un mapa de tipo string
@@ -196,4 +197,4 @@ func getUserByRequest(r *http.Request) (models.User, error) {
 	} else {
 		return *user, nil
 	}
-}
+}*/
