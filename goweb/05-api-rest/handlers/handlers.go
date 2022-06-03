@@ -10,6 +10,9 @@ import (
 
 func GetUsers(rw http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintln(rw, "Lista todos los usuarios")
+
+	rw.Header().Set("content-type", "application/json")
+
 	db.Connect()
 	users := models.ListUsers()
 	db.Close()
