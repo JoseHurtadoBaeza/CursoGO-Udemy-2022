@@ -5,7 +5,21 @@ import (
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
+
+// dsn indicado en la web de GORM -> user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local
+var dsn = "root:1234@tcp(localhost:3306)/goweb_db?charset=utf8mb4&parseTime=True&loc=Local"
+var Database = func() (db *gorm.DB) {
+	if db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{}); err != nil { // Realizar la conexión
+		fmt.Println("Error en la conexión", err)
+		panic(err)
+	} else {
+		fmt.Println("Conexión exitosa")
+		return db
+	}
+}()
 
 // username:password@tcp(localhost:3306)/database
 const url = "root:1234@tcp(localhost:3306)/goweb_db"
