@@ -56,7 +56,7 @@ func ExistsTable(tableName string) bool {
 func CreateTable(schema string, name string) {
 
 	if !ExistsTable(name) {
-		_, err := db.Exec(schema)
+		_, err := Exec(schema)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -72,7 +72,10 @@ func TruncateTable(tablename string) {
 
 // Polimorfismo de Exec
 func Exec(query string, args ...interface{}) (sql.Result, error) {
+
+	Connect() // Refactorización del código
 	result, err := db.Exec(query, args...)
+	Close() // Refactorización del código
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -82,7 +85,9 @@ func Exec(query string, args ...interface{}) (sql.Result, error) {
 
 // Polimorfismo de Query
 func Query(query string, args ...interface{}) (*sql.Rows, error) {
+	Connect() // Refactorización del código
 	rows, err := db.Query(query, args...)
+	Close() // Refactorización del código
 	if err != nil {
 		fmt.Println(err)
 	}

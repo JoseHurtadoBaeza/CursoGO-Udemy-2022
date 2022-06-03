@@ -19,7 +19,7 @@ func GetUsers(rw http.ResponseWriter, r *http.Request) {
 	// No hay un tipo de dato específico para yaml
 
 	db.Connect()
-	users := models.ListUsers()
+	users, _ := models.ListUsers()
 	db.Close()
 	// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
 	output, _ := json.Marshal(users) // Para responder con json
@@ -40,7 +40,7 @@ func GetUser(rw http.ResponseWriter, r *http.Request) {
 	userId, _ := strconv.Atoi(vars["id"])
 
 	db.Connect()
-	user := models.GetUser(userId)
+	user, _ := models.GetUser(userId)
 	db.Close()
 	// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
 	output, _ := json.Marshal(user) // Para responder con json
@@ -117,7 +117,7 @@ func DeleteUser(rw http.ResponseWriter, r *http.Request) {
 	userId, _ := strconv.Atoi(vars["id"])
 
 	db.Connect()
-	user := models.GetUser(userId)
+	user, _ := models.GetUser(userId)
 	user.Delete()
 	db.Close()
 	// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
