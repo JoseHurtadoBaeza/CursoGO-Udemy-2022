@@ -2,12 +2,29 @@ package models
 
 import "apirest/db"
 
-type User struct {
+// Responder con JSON
+/*type User struct {
 	Id       int64  `json:"id"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Email    string `json:"email"`
+}*/
+
+// Responder con XML
+type User struct {
+	Id       int64  `xml:"id"`
+	Username string `xml:"username"`
+	Password string `xml:"password"`
+	Email    string `xml:"email"`
 }
+
+// Responder con YAML
+/*type User struct {
+	Id       int64  `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
+}*/
 
 type Users []User
 
