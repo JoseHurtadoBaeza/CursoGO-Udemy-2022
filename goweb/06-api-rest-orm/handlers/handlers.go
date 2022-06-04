@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"gorm.io/gorm"
 )
 
 func GetUsers(rw http.ResponseWriter, r *http.Request) {
@@ -66,22 +67,27 @@ func GetUser(rw http.ResponseWriter, r *http.Request) {
 		models.SendData(rw, user)
 	}*/
 
-	user := getUserById(r)
-	sendData(rw, user, http.StatusOK)
+	if user, err := getUserById(r); err != nil {
+		sendError(rw, http.StatusNotFound)
+	} else {
+		sendData(rw, user, http.StatusOK)
+	}
 
 }
 
 // Función reutilizable para simplificar el código en el uso
 // de GetUser tanto en la parte de editar como en la eliminar
-func getUserById(r *http.Request) models.User {
+func getUserById(r *http.Request) (models.User, *gorm.DB) {
 
 	vars := mux.Vars(r)
 	userId, _ := strconv.Atoi(vars["id"])
 
 	user := models.User{}
-	db.Database.First(&user, userId) // Nos va a devolver un dato en función del id que le pasemos
-
-	return user
+	if err := db.Database.First(&user, userId); err.Error != nil { // Nos va a devolver un dato en función del id que le pasemos
+		return user, err
+	} else {
+		return user, nil
+	}
 
 }
 
@@ -118,10 +124,8 @@ func CreateUser(rw http.ResponseWriter, r *http.Request) {
 
 		if err := decoder.Decode(&user); err != nil {
 			models.SendUnprocessableEntity(rw)
-		} else {
-			user.Save()
-			models.SendData(rw, user)
-		}
+		} else {	sendData(rw, user, http.StatusOK)
+
 	*/
 
 	// Obtener usuario/registro
@@ -162,9 +166,8 @@ func UpdateUser(rw http.ResponseWriter, r *http.Request) {
 	  output, _ := json.Marshal(user) // Para responder con json
 	  //output, _ := xml.Marshal(users) // Para responder con xml
 	  //output, _ := yaml.Marshal(users) // Para responder con yaml
-	  fmt.Fprintln(rw, string(output))*/
+	  fmt.Fprintln(rw, string(output	sendData(rw, user, http.StatusOK)
 
-	// Obtener registro
 	/*	var userId int64
 
 		if user, err := getUserByRequest(r); err != nil {
@@ -187,19 +190,22 @@ func UpdateUser(rw http.ResponseWriter, r *http.Request) {
 
 	var userId int64
 
-	user_ant := getUserById(r)
-	userId = user_ant.Id
-
-	// Obtener usuario/registro
-	user := models.User{}
-	decoder := json.NewDecoder(r.Body)
-
-	if err := decoder.Decode(&user); err != nil {
-		sendError(rw, http.StatusUnprocessableEntity)
+	if user_ant, err := getUserById(r); err != nil {
+		sendError(rw, http.StatusNotFound)
 	} else {
-		user.Id = userId
-		db.Database.Save(&user)
-		sendData(rw, user, http.StatusCreated)
+		userId = user_ant.Id
+
+		// Obtener usuario/registro
+		user := models.User{}
+		decoder := json.NewDecoder(r.Body)
+
+		if err := decoder.Decode(&user); err != nil {
+			sendError(rw, http.StatusUnprocessableEntity)
+		} else {
+			user.Id = userId
+			db.Database.Save(&user)
+			sendData(rw, user, http.StatusOK)
+		}
 	}
 
 }
