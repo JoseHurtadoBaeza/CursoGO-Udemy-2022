@@ -4,6 +4,9 @@ import (
 	"gorm/db"
 	"gorm/models"
 	"net/http"
+	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 func GetUsers(rw http.ResponseWriter, r *http.Request) {
@@ -35,34 +38,51 @@ func GetUsers(rw http.ResponseWriter, r *http.Request) {
 
 }
 
-//func GetUser(rw http.ResponseWriter, r *http.Request) {
-// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
-//fmt.Fprintln(rw, "Obtiene un usuario")
+func GetUser(rw http.ResponseWriter, r *http.Request) {
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
+	//fmt.Fprintln(rw, "Obtiene un usuario")
 
-/*rw.Header().Set("content-type", "application/json") // Para responder con json
-//rw.Header().Set("content-type", "text/xml") // Para responder con xml
-// No hay un tipo de dato específico para yaml
+	/*rw.Header().Set("content-type", "application/json") // Para responder con json
+	  //rw.Header().Set("content-type", "text/xml") // Para responder con xml
+	  // No hay un tipo de dato específico para yaml
 
-// Obtener ID
-vars := mux.Vars(r) // Mos devuelve un mapa de tipo string
-userId, _ := strconv.Atoi(vars["id"])
+	  // Obtener ID
+	  vars := mux.Vars(r) // Mos devuelve un mapa de tipo string
+	  userId, _ := strconv.Atoi(vars["id"])
 
-db.Connect()
-user, _ := models.GetUser(userId)
-db.Close()
-// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
-output, _ := json.Marshal(user) // Para responder con json
-//output, _ := xml.Marshal(users) // Para responder con xml
-//output, _ := yaml.Marshal(users) // Para responder con yaml
-fmt.Fprintln(rw, string(output))*/
+	  db.Connect()
+	  user, _ := models.GetUser(userId)
+	  db.Close()
+	  // Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
+	  output, _ := json.Marshal(user) // Para responder con json
+	  //output, _ := xml.Marshal(users) // Para responder con xml
+	  //output, _ := yaml.Marshal(users) // Para responder con yaml
+	  fmt.Fprintln(rw, string(output))*/
 
-/*	if user, err := getUserByRequest(r); err != nil {
+	/*if user, err := getUserByRequest(r); err != nil {
 		models.SendNotFound(rw)
 	} else {
 		models.SendData(rw, user)
-	}
+	}*/
 
-}*/
+	user := getUserById(r)
+	sendData(rw, user, http.StatusOK)
+
+}
+
+// Función reutilizable para simplificar el código en el uso
+// de GetUser tanto en la parte de editar como en la eliminar
+func getUserById(r *http.Request) models.User {
+
+	vars := mux.Vars(r)
+	userId, _ := strconv.Atoi(vars["id"])
+
+	user := models.User{}
+	db.Database.First(&user, userId) // Nos va a devolver un dato en función del id que le pasemos
+
+	return user
+
+}
 
 //func CreateUser(rw http.ResponseWriter, r *http.Request) {
 // EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
@@ -184,6 +204,7 @@ fmt.Fprintln(rw, string(output))*/
 
 }*/
 
+// DEPRECATED
 // Función reutilizable para simplificar el código en el uso
 // de GetUser tanto en la parte de editar como en la eliminar
 /*func getUserByRequest(r *http.Request) (models.User, error) {
