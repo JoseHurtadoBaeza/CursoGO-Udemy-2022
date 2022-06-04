@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"gorm/db"
 	"gorm/models"
 	"net/http"
@@ -84,94 +85,124 @@ func getUserById(r *http.Request) models.User {
 
 }
 
-//func CreateUser(rw http.ResponseWriter, r *http.Request) {
-// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
-//fmt.Fprintln(rw, "Crea un usuario")
+func CreateUser(rw http.ResponseWriter, r *http.Request) {
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
+	//fmt.Fprintln(rw, "Crea un usuario")
 
-/*rw.Header().Set("content-type", "application/json") // Para responder con json
-//rw.Header().Set("content-type", "text/xml") // Para responder con xml
-// No hay un tipo de dato específico para yaml
+	/*rw.Header().Set("content-type", "application/json") // Para responder con json
+	  //rw.Header().Set("content-type", "text/xml") // Para responder con xml
+	  // No hay un tipo de dato específico para yaml
 
-// Obtener usuario/registro
-user := models.User{}
+	  // Obtener usuario/registro
+	  user := models.User{}
 
-decoder := json.NewDecoder(r.Body)
+	  decoder := json.NewDecoder(r.Body)
 
-if err := decoder.Decode(&user); err != nil {
-	fmt.Fprintln(rw, http.StatusUnprocessableEntity)
-} else {
-	db.Connect()
-	user.Save() // Método creado por nosotros que inserta o actualiza dependiendo de si el usuario existe ya o no
-	db.Close()
-}
+	  if err := decoder.Decode(&user); err != nil {
+	  	fmt.Fprintln(rw, http.StatusUnprocessableEntity)
+	  } else {
+	  	db.Connect()
+	  	user.Save() // Método creado por nosotros que inserta o actualiza dependiendo de si el usuario existe ya o no
+	  	db.Close()
+	  }
 
-// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
-output, _ := json.Marshal(user) // Para responder con json
-//output, _ := xml.Marshal(users) // Para responder con xml
-//output, _ := yaml.Marshal(users) // Para responder con yaml
-fmt.Fprintln(rw, string(output))*/
+	  // Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
+	  output, _ := json.Marshal(user) // Para responder con json
+	  //output, _ := xml.Marshal(users) // Para responder con xml
+	  //output, _ := yaml.Marshal(users) // Para responder con yaml
+	  fmt.Fprintln(rw, string(output))*/
 
-// Obtener usuario/registro
-/*	user := models.User{}
-	decoder := json.NewDecoder(r.Body)
+	// Obtener usuario/registro
+	/*	user := models.User{}
+		decoder := json.NewDecoder(r.Body)
 
-	if err := decoder.Decode(&user); err != nil {
-		models.SendUnprocessableEntity(rw)
-	} else {
-		user.Save()
-		models.SendData(rw, user)
-	}
+		if err := decoder.Decode(&user); err != nil {
+			models.SendUnprocessableEntity(rw)
+		} else {
+			user.Save()
+			models.SendData(rw, user)
+		}
+	*/
 
-}*/
-
-//func UpdateUser(rw http.ResponseWriter, r *http.Request) {
-// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
-//fmt.Fprintln(rw, "Actualiza un usuario")
-
-/*rw.Header().Set("content-type", "application/json") // Para responder con json
-//rw.Header().Set("content-type", "text/xml") // Para responder con xml
-// No hay un tipo de dato específico para yaml
-
-// Obtener registro
-user := models.User{}
-
-decoder := json.NewDecoder(r.Body)
-
-if err := decoder.Decode(&user); err != nil {
-	fmt.Fprintln(rw, http.StatusUnprocessableEntity)
-} else {
-	db.Connect()
-	user.Save() // Método creado por nosotros que inserta o actualiza dependiendo de si el usuario existe ya o no
-	db.Close()
-}
-
-// Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
-output, _ := json.Marshal(user) // Para responder con json
-//output, _ := xml.Marshal(users) // Para responder con xml
-//output, _ := yaml.Marshal(users) // Para responder con yaml
-fmt.Fprintln(rw, string(output))*/
-
-// Obtener registro
-/*	var userId int64
-
-	if user, err := getUserByRequest(r); err != nil {
-		models.SendNotFound(rw)
-	} else {
-		userId = user.Id
-	}
-
+	// Obtener usuario/registro
 	user := models.User{}
 	decoder := json.NewDecoder(r.Body)
 
 	if err := decoder.Decode(&user); err != nil {
-		models.SendUnprocessableEntity(rw)
+		sendError(rw, http.StatusUnprocessableEntity)
 	} else {
-		user.Id = userId
-		user.Save()
-		models.SendData(rw, user)
+		db.Database.Save(&user)
+		sendData(rw, user, http.StatusCreated)
 	}
 
-}*/
+}
+
+func UpdateUser(rw http.ResponseWriter, r *http.Request) {
+	// EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
+	//fmt.Fprintln(rw, "Actualiza un usuario")
+
+	/*rw.Header().Set("content-type", "application/json") // Para responder con json
+	  //rw.Header().Set("content-type", "text/xml") // Para responder con xml
+	  // No hay un tipo de dato específico para yaml
+
+	  // Obtener registro
+	  user := models.User{}
+
+	  decoder := json.NewDecoder(r.Body)
+
+	  if err := decoder.Decode(&user); err != nil {
+	  	fmt.Fprintln(rw, http.StatusUnprocessableEntity)
+	  } else {
+	  	db.Connect()
+	  	user.Save() // Método creado por nosotros que inserta o actualiza dependiendo de si el usuario existe ya o no
+	  	db.Close()
+	  }
+
+	  // Marshall devuelve 2 valores: Los valores transformados en tipo byte y un error
+	  output, _ := json.Marshal(user) // Para responder con json
+	  //output, _ := xml.Marshal(users) // Para responder con xml
+	  //output, _ := yaml.Marshal(users) // Para responder con yaml
+	  fmt.Fprintln(rw, string(output))*/
+
+	// Obtener registro
+	/*	var userId int64
+
+		if user, err := getUserByRequest(r); err != nil {
+			models.SendNotFound(rw)
+		} else {
+			userId = user.Id
+		}
+
+		user := models.User{}
+		decoder := json.NewDecoder(r.Body)
+
+		if err := decoder.Decode(&user); err != nil {
+			models.SendUnprocessableEntity(rw)
+		} else {
+			user.Id = userId
+			user.Save()
+			models.SendData(rw, user)
+		}
+	*/
+
+	var userId int64
+
+	user_ant := getUserById(r)
+	userId = user_ant.Id
+
+	// Obtener usuario/registro
+	user := models.User{}
+	decoder := json.NewDecoder(r.Body)
+
+	if err := decoder.Decode(&user); err != nil {
+		sendError(rw, http.StatusUnprocessableEntity)
+	} else {
+		user.Id = userId
+		db.Database.Save(&user)
+		sendData(rw, user, http.StatusCreated)
+	}
+
+}
 
 ///func DeleteUser(rw http.ResponseWriter, r *http.Request) {
 // EL CÓDIGO COMENTADO ES ANTERIOR A LA REFACTORIZACIÓN FINAL
